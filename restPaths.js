@@ -26,7 +26,7 @@ const getReposUrl = projectKey => basicProjectUrl(projectKey)
     .toString();
 
 /**
- * @param {{projectKey: string, slug: string}} keys The key of the BitBucket project and the slug (or key) of the
+ * @param {RepoKey} keys The key of the BitBucket project and the slug (or key) of the
  * repository in this project
  * @return {string} The URL which can be called to fetch all open pull requests in this repository
  */
