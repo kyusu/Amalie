@@ -69,3 +69,15 @@
 /**
  * @typedef {{slug: string, projectKey: string}} RepoKey
  */
+
+/**
+ * @typedef {{title: string}} PullRequestInfo
+ */
+
+/**
+ * @typedef {{name: string, pullRequestsToReview: ?Array.<PullRequestInfo>, pullRequestsAuthored: ?Array.<PullRequestInfo>}} PullRequestParticipant
+ */
+
+/**
+ * @typedef {Object.<string, {pullRequestsAuthored: ?Array.<PullRequestInfo>, pullRequestsToReview: ?Array.<PullRequestInfo}>} PullRequestAccumulator
+ */

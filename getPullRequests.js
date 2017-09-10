@@ -3,6 +3,8 @@ const {tGetWithAuth} = require('./taskifiedGet.js');
 const {getProjectsUrl, getReposUrl, getPullRequestsUrl} = require('./restPaths.js');
 const R = require('ramda');
 const {waitAll} = require('folktale/concurrency/task');
+const viewValues = require('./viewValues.js');
+const getPullRequestParticipants = require('./getPullRequestParticipants.js');
 
 /**
  * @type {Task}
@@ -33,12 +35,6 @@ const getPullRequestTask = R.compose(tGetWithAuth, getPullRequestsUrl);
  * @return {Task} The task which is fetching the pull requests information
  */
 const pullRequestsTask = R.compose(waitAll, R.map(getPullRequestTask));
-
-/**
- * @param {ObjectWithValues} Any object with a values property
- * @return {Array} The values
- */
-const viewValues = R.view(R.lensProp('values'));
 
 /**
  * @param {Project} A BitBucket project
@@ -73,24 +69,12 @@ const getSlugAndKeyObjects = R.compose(R.map(getSlugAndKey), viewValues);
  */
 const getProjectAndRepoKeys = R.compose(R.flatten, R.map(getSlugAndKeyObjects));
 
-/**
- * @param {PullRequest} A BitBucket pull request
- * @return {string} The author of said pull request
- */
-const viewDisplayName = R.view(R.lensPath(['author', 'user', 'displayName']));
-
-/**
- * @param {Array.<RepoPullRequests>} repoPullRequests A list of BitBucket pull requests and project information
- * @return {Array.<string>} A list of pull request authors
- */
-const getAuthors = R.compose(R.map(viewDisplayName), R.flatten, R.map(viewValues));
-
 projectsTask
     .map(getProjectKeys)
     .chain(reposTask)
     .map(getProjectAndRepoKeys)
     .chain(pullRequestsTask)
-    .map(getAuthors)
+    .map(getPullRequestParticipants)
     .run()
     .listen({
         onCancelled: () => console.log('task was cancelled'),
