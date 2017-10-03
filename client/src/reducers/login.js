@@ -17,7 +17,7 @@ const login = (state = {
             return {
                 ...state,
                 isFetching: false,
-                value: action.payload
+                value: {}
             };
         case LOGIN_FAILURE:
             return {

@@ -14,7 +14,7 @@ class PullRequests extends Component {
         return (<div>
             {!pullRequests.value && !pullRequests.isFetching ? <Link to="/login">Please login</Link> : null}
             {pullRequests.value && !pullRequests.isFetching ? <div>{pullRequests.value[0].name}</div> : null}
-            {pullRequests.error ? <div>An error has occurred</div> : null}
+            {pullRequests.error ? <div>{pullRequests.error}</div> : null}
         </div>);
     }
 }

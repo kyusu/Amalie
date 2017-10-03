@@ -17,9 +17,10 @@ const getFormValues = e => {
     return R.reduce(getUserNameAndPassword, {}, inputElements);
 };
 
-const Login = ({isFetching, onSubmit}) => (<div>
-    {isFetching ? <div>Loading…</div> : null}
-    {!isFetching ? <form onSubmit={onSubmit}>
+const Login = ({login, onSubmit}) => (<div>
+    {!login.isFetching && login.error ? <div>{login.error}</div> : null}
+    {login.isFetching ? <div>Loading…</div> : null}
+    {!login.isFetching ? <form onSubmit={onSubmit}>
         <label htmlFor="username">Username:</label>
         <input id="username" type="text" placeholder="your username"/>
         <label htmlFor="password">Password:</label>

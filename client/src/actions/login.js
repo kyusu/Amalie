@@ -1,25 +1,21 @@
 import fetch from 'isomorphic-fetch';
 import {replace} from 'react-router-redux';
+import checkStatus from '../utils/checkStatus.js';
 
 export const LOGIN_REQUEST = Symbol('login request');
 export const LOGIN_SUCCESS = Symbol('login success');
 export const LOGIN_FAILURE = Symbol('login failure');
-
 
 const loginFailure = error => ({
     type: LOGIN_FAILURE,
     payload: error.message
 });
 
-const loginSuccess = data => ({
+const loginSuccess = () => ({
     type: LOGIN_SUCCESS,
-    meta: {
-        receivedAt: Date.now()
-    },
-    payload: data
 });
 
-const dispatchSuccess = dispatch => response => response.json().then(data => dispatch(loginSuccess(data)));
+const dispatchSuccess = dispatch => dispatch(loginSuccess());
 const dispatchError = dispatch => error => dispatch(loginFailure(error));
 
 const fetchLoginData = formValues => {
@@ -35,11 +31,11 @@ const fetchLoginData = formValues => {
             },
             method: 'POST',
             body: JSON.stringify(formValues)
-        })
-            .then(response => {
+        }).then(checkStatus)
+            .then(() => {
                 dispatch(replace('/pullrequests'));
-                return dispatchSuccess(dispatch)(response);
-            }, dispatchError(dispatch));
+                return dispatchSuccess(dispatch);
+            }).catch(dispatchError(dispatch));
     };
 };
 

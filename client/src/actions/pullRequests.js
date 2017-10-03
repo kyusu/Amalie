@@ -1,5 +1,6 @@
 import parseJSON from '../utils/parseJSON.js';
 import checkStatus from '../utils/checkStatus.js';
+import {replace} from 'react-router-redux';
 
 export const PR_REQUEST = Symbol('pull requests request');
 export const PR_SUCCESS = Symbol('pull requests success');
@@ -33,7 +34,12 @@ const getPullRequests = () => {
         }).then(checkStatus)
             .then(parseJSON)
             .then(data => dispatch(pullRequestsSuccess(data)))
-            .catch(ex => dispatch(pullRequestFailure(ex)));
+            .catch(ex => {
+                if (ex.status === 401) {
+                    dispatch(replace('/login'));
+                }
+                dispatch(pullRequestFailure(ex))
+            });
     };
 };
 export const pullRequests = () => dispatch => dispatch(getPullRequests());
