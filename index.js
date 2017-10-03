@@ -18,8 +18,7 @@ app.post('/api/login', (req, res) => {
     };
     login(loginObj).then(() => {
         res.cookie('login', loginObj, {
-            maxAge: 900000,
-            httpOnly: false
+            httpOnly: true
         });
         res.sendStatus(200);
     }, (error) => {
