@@ -1,5 +1,12 @@
 const {getUserUrl} = require('./restPaths.js');
 const {tGet} = require('./taskifiedGet.js');
+const R = require('ramda');
+
+const getLoginData = R.pick([
+    'username',
+    'password',
+    'server'
+]);
 
 const login = ({username, password, server}) => tGet({
     auth: {
@@ -11,4 +18,18 @@ const login = ({username, password, server}) => tGet({
     server
 })).run().promise();
 
-module.exports = login;
+const handleFailedLogin = res => error => res.sendStatus(error.statusCode);
+
+const handleSuccessfulLogin = (loginData, res) => () => {
+    res.cookie('login', loginData, {
+        httpOnly: true
+    });
+    res.sendStatus(200);
+};
+
+const handleLogin = (req, res) => {
+    const loginObj = getLoginData(req.body);
+    login(loginObj).then(handleSuccessfulLogin(loginObj, res), handleFailedLogin(res));
+};
+
+module.exports = handleLogin;

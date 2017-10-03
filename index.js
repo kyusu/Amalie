@@ -2,29 +2,17 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const login = require('./login.js');
-const getPullRequests = require('./getPullRequests.js');
 const Maybe = require('folktale/maybe');
+
+const handleLogin = require('./login.js');
+const getPullRequests = require('./getPullRequests.js');
+
+
 const app = express();
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.post('/api/login', (req, res) => {
-    const {username, password, server} = req.body;
-    const loginObj = {
-        username,
-        password,
-        server
-    };
-    login(loginObj).then(() => {
-        res.cookie('login', loginObj, {
-            httpOnly: true
-        });
-        res.sendStatus(200);
-    }, (error) => {
-        res.sendStatus(error.statusCode);
-    });
-});
+app.post('/api/login', handleLogin);
 
 app.post('/api/logout', (req, res) => {
     res.clearCookie('login');
