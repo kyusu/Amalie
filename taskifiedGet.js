@@ -2,12 +2,16 @@ const {task} = require('folktale/concurrency/task');
 const request = require('request');
 const R = require('ramda');
 
-const auth = {
+/**
+ * @param {LoginData}
+ * @return {{auth: {user: string, pass: string}}}
+ */
+const auth = ({username, password}) => ({
     auth: {
-        user: process.env.USERNAME,
-        pass: process.env.PASSWORD
+        user: username,
+        pass: password
     }
-};
+});
 
 /**
  * Handles the successful or failed call of request.get
@@ -18,7 +22,10 @@ const auth = {
  */
 const handleRequest = (resolver, error, response, body) => {
     if (error || response.statusCode !== 200) {
-        resolver.reject(error || JSON.parse(body));
+        resolver.reject({
+            error: error || JSON.parse(body),
+            statusCode: response ? response.statusCode : 404
+        });
     } else if (response) {
         resolver.resolve(JSON.parse(body));
     }
@@ -30,16 +37,17 @@ const handleRequest = (resolver, error, response, body) => {
  * @param {string} url The URL which is called by the request
  * @return {Task} The task object which is wrapping the request get call
  */
-const tGet = R.curry((header, url) => task(resolver => {
+const tGet = (header, url) => task(resolver => {
     request.get(url, header, R.partial(handleRequest, [resolver]));
-}));
+});
 
 /**
  * Wraps request.get in a folktale task object and prefills the authentication header
+ * @param {LoginData} loginData
  * @param {string} url The URL which is called by the request
  * @return {Task} The task object which is wrapping the request get call
  */
-const tGetWithAuth = tGet(auth);
+const tGetWithAuth = (loginData, url) => tGet(auth(loginData), url);
 
 module.exports = {
     tGetWithAuth,

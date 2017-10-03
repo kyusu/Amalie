@@ -81,3 +81,7 @@
 /**
  * @typedef {Object.<string, {pullRequestsAuthored: ?Array.<PullRequestInfo>, pullRequestsToReview: ?Array.<PullRequestInfo}>} PullRequestAccumulator
  */
+
+/**
+ * @typedef {{username: string, password: string, server: string}} LoginData
+ */

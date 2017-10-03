@@ -7,34 +7,42 @@ const viewValues = require('./viewValues.js');
 const getPullRequestParticipants = require('./getPullRequestParticipants.js');
 
 /**
- * @type {Task}
+ * @param {LoginData}
+ * @return {Task}
  */
-const projectsTask = tGetWithAuth(getProjectsUrl);
+const projectsTask = ({username, password, server}) => tGetWithAuth({
+    username,
+    password
+}, getProjectsUrl(server));
 
 /**
+ * @param {LoginData} login
  * @param {string} projectKey The key of a BitBucket project
  * @return {Task} The task which is fetching the repository information
  */
-const getRepoTask = R.compose(tGetWithAuth, getReposUrl);
+const getRepoTask = R.curry((login, projectKey) => tGetWithAuth(login, getReposUrl(login.server, projectKey)));
 
 /**
+ * @param {LoginData} login
  * @param {Array.<string>} projectKeys The keys of all the BitBucket projects in question
  * @return {Task} The task which is fetching the repositories information
  */
-const reposTask = R.compose(waitAll, R.map(getRepoTask));
+const reposTask = login => R.compose(waitAll, R.map(getRepoTask(login)));
 
 /**
+ * @param {LoginData} login
  * @param {RepoKey} repoKey The key of a BitBucket repository
  * @return {Task} The task which is fetching the pull request information
  */
-const getPullRequestTask = R.compose(tGetWithAuth, getPullRequestsUrl);
+const getPullRequestTask = R.curry((login, repoKey) => tGetWithAuth(login, getPullRequestsUrl(login.server, repoKey)));
 
 /**
+ * @param {LoginData} login
  * @param {Array.<RepoKey>} repoKeys The key of the BitBucket project and the slug (or key) of the
  * repository in this project
  * @return {Task} The task which is fetching the pull requests information
  */
-const pullRequestsTask = R.compose(waitAll, R.map(getPullRequestTask));
+const pullRequestsTask = login => R.compose(waitAll, R.map(getPullRequestTask(login)));
 
 /**
  * @param {Project} A BitBucket project
@@ -69,17 +77,19 @@ const getSlugAndKeyObjects = R.compose(R.map(getSlugAndKey), viewValues);
  */
 const getProjectAndRepoKeys = R.compose(R.flatten, R.map(getSlugAndKeyObjects));
 
-projectsTask
+/**
+ * @param {LoginData} login
+ * @return {Promise}
+ */
+const getPullRequests = login => projectsTask(login)
     .map(getProjectKeys)
-    .chain(reposTask)
+    .chain(reposTask(login))
     .map(getProjectAndRepoKeys)
-    .chain(pullRequestsTask)
+    .chain(pullRequestsTask(login))
     .map(getPullRequestParticipants)
     .run()
-    .listen({
-        onCancelled: () => console.log('task was cancelled'),
-        onRejected: (reason) => console.log('task was rejected', reason),
-        onResolved: (value) => console.log(JSON.stringify(value, null, 4))
-    });
+    .promise();
+
+module.exports = getPullRequests;
 
 
