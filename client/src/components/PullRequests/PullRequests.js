@@ -13,6 +13,9 @@ class PullRequests extends Component {
     render() {
         const {pullRequests} = this.props;
         return (<div>
+            {pullRequests.isFetching ? <div className="progress">
+                <div className="indeterminate"></div>
+            </div> : null}
             {!pullRequests.value && !pullRequests.isFetching ? <Link to="/login">Please login</Link> : null}
             {pullRequests.error ? <div>{pullRequests.error}</div> : null}
             {pullRequests.value && !pullRequests.isFetching ? <ul className="collection">
