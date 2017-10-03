@@ -11,7 +11,7 @@ const loginFailure = error => ({
     payload: error.message
 });
 
-const loginSuccess = () => ({
+export const loginSuccess = () => ({
     type: LOGIN_SUCCESS,
 });
 
