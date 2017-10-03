@@ -1,13 +1,24 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom';
+import {pullRequests} from '../../actions/pullRequests.js';
 
-const PullRequests = props => (<div>
-    {!props.login.value && !props.login.isFetching ? <Link to="/login">Please login</Link> : null}
-    {props.login.value && !props.login.isFetching ? <div>{props.login.value.name}</div> : null}
-    {props.login.error ? <div>An error has occurred</div> : null}
-</div>);
+class PullRequests extends Component {
 
-const mapStateToProps = ({login}) => ({login});
+    componentDidMount() {
+        this.props.dispatch(pullRequests());
+    }
+
+    render() {
+        const {pullRequests} = this.props;
+        return (<div>
+            {!pullRequests.value && !pullRequests.isFetching ? <Link to="/login">Please login</Link> : null}
+            {pullRequests.value && !pullRequests.isFetching ? <div>{pullRequests.value[0].name}</div> : null}
+            {pullRequests.error ? <div>An error has occurred</div> : null}
+        </div>);
+    }
+}
+
+const mapStateToProps = ({pullRequests}) => ({pullRequests});
 
 export default connect(mapStateToProps)(PullRequests);

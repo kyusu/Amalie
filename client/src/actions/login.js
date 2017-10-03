@@ -23,12 +23,19 @@ const dispatchSuccess = dispatch => response => response.json().then(data => dis
 const dispatchError = dispatch => error => dispatch(loginFailure(error));
 
 const fetchLoginData = formValues => {
-    console.log('login.js', '26', 'fetchLoginData', formValues);
     return dispatch => {
         dispatch({
             type: LOGIN_REQUEST
         });
-        return fetch('https://jsonplaceholder.typicode.com/users/1')
+        return fetch('/api/login', {
+            credentials: 'same-origin',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify(formValues)
+        })
             .then(response => {
                 dispatch(replace('/pullrequests'));
                 return dispatchSuccess(dispatch)(response);
