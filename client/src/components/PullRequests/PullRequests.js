@@ -17,9 +17,9 @@ class PullRequests extends Component {
             {pullRequests.error ? <div>{pullRequests.error}</div> : null}
             {pullRequests.value && !pullRequests.isFetching ? <ul className="collection">
                 {R.map(participant => (<li className="collection-item">{participant.name}
-                    <span class="new badge red"
+                    <span className="new badge red"
                           data-badge-caption="to review">{participant.pullRequestsToReview.length}</span>
-                    {participant.pullRequestsAuthored ? <span class="new badge blue"
+                    {participant.pullRequestsAuthored ? <span className="new badge blue"
                                                               data-badge-caption="authored">
                         {participant.pullRequestsAuthored.length}</span> : null}
                 </li>), pullRequests.value)}
