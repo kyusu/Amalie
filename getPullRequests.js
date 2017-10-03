@@ -5,6 +5,7 @@ const R = require('ramda');
 const {waitAll} = require('folktale/concurrency/task');
 const viewValues = require('./viewValues.js');
 const getPullRequestParticipants = require('./getPullRequestParticipants.js');
+const Maybe = require('folktale/maybe');
 
 /**
  * @param {LoginData}
@@ -90,6 +91,20 @@ const getPullRequests = login => projectsTask(login)
     .run()
     .promise();
 
-module.exports = getPullRequests;
+const handleMissingAuthenticationCookie = res => () => res.sendStatus(401);
+
+const handleFailedGetPullRequests = res => () => res.sendStatus(500);
+
+const handleSuccessfulGetPullRequests = res => data => res.json(data);
+
+const handleExistingAuthenticationCookie = res => ({value}) => getPullRequests(value).then(
+    handleSuccessfulGetPullRequests(res), handleFailedGetPullRequests(res));
+
+const handleGetPullRequests = (req, res) => Maybe.fromNullable(req.cookies.authentication).matchWith({
+    Just: handleExistingAuthenticationCookie(res),
+    Nothing: handleMissingAuthenticationCookie(res)
+});
+
+module.exports = handleGetPullRequests;
 
 

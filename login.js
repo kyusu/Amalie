@@ -21,7 +21,7 @@ const login = ({username, password, server}) => tGet({
 const handleFailedLogin = res => error => res.sendStatus(error.statusCode);
 
 const handleSuccessfulLogin = (loginData, res) => () => {
-    res.cookie('login', loginData, {
+    res.cookie('authentication', loginData, {
         httpOnly: true
     });
     res.sendStatus(200);
