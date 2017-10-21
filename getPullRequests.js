@@ -97,8 +97,8 @@ const handleFailedGetPullRequests = res => () => res.sendStatus(500);
 
 const handleSuccessfulGetPullRequests = res => data => res.json(data);
 
-const handleExistingAuthenticationCookie = res => ({value}) => getPullRequests(value).then(
-    handleSuccessfulGetPullRequests(res), handleFailedGetPullRequests(res));
+const handleExistingAuthenticationCookie = res => ({value}) => getPullRequests(value)
+    .then(handleSuccessfulGetPullRequests(res), handleFailedGetPullRequests(res));
 
 const handleGetPullRequests = (req, res) => Maybe.fromNullable(req.cookies.authentication).matchWith({
     Just: handleExistingAuthenticationCookie(res),
@@ -106,5 +106,3 @@ const handleGetPullRequests = (req, res) => Maybe.fromNullable(req.cookies.authe
 });
 
 module.exports = handleGetPullRequests;
-
-

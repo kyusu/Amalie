@@ -1,4 +1,5 @@
 const UrlAssembler = require('url-assembler');
+
 const basicUrl = server => UrlAssembler(server).prefix(process.env.REST_API);
 
 /**

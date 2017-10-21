@@ -1,7 +1,7 @@
 import React from 'react';
 import R from 'ramda';
-import {connect} from 'react-redux'
-import {login} from '../../actions/login.js';
+import {connect} from 'react-redux';
+import {login} from '../../actions/login';
 
 
 const getUserNameAndPassword = (acc, inputEl) => {
@@ -21,24 +21,25 @@ const Login = ({login, onSubmit}) => (<div className="col s12">
     {!login.isFetching && login.error ? <div>{login.error}</div> : null}
     {login.isFetching ? <div>Loading…</div> : null}
     {!login.isFetching ? <form onSubmit={onSubmit}>
-        <label htmlFor="username">Username:</label>
-        <input id="username" type="text" placeholder="your username"/>
-        <label htmlFor="password">Password:</label>
-        <input id="password" type="password" placeholder="your password"/>
-        <label htmlFor="server">BitBucket server:</label>
-        <input id="server" type="text" placeholder="bitbucket.mycompay.com"/>
+        <label htmlFor="username">Username:
+            <input id="username" type="text" placeholder="your username"/>
+        </label>
+        <label htmlFor="password">Password:
+            <input id="password" type="password" placeholder="your password"/>
+        </label>
+        <label htmlFor="server">BitBucket server:
+            <input id="server" type="text" placeholder="bitbucket.mycompay.com"/>
+        </label>
         <button type="submit">Login</button>
     </form> : null}
 </div>);
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onSubmit: e => {
-            e.preventDefault();
-            dispatch(login(getFormValues(e)))
-        }
+const mapDispatchToProps = dispatch => ({
+    onSubmit: e => {
+        e.preventDefault();
+        dispatch(login(getFormValues(e)));
     }
-};
+});
 
 const mapStateToProps = ({login}) => ({login});
 

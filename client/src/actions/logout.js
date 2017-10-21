@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
-import checkStatus from '../utils/checkStatus.js';
 import {replace} from 'react-router-redux';
+import checkStatus from '../utils/checkStatus';
 
 export const LOGOUT_REQUEST = Symbol('logout request');
 export const LOGOUT_SUCCESS = Symbol('logout success');
@@ -12,23 +12,21 @@ const logoutFailure = error => ({
 });
 
 export const logoutSuccess = () => ({
-    type: LOGOUT_SUCCESS,
+    type: LOGOUT_SUCCESS
 });
 
-const doLogout = () => {
-    return dispatch => {
-        dispatch({
-            type: LOGOUT_REQUEST
-        });
-        return fetch('/api/logout', {
-            credentials: 'same-origin',
-            method: 'POST',
-        }).then(checkStatus)
-            .then(() => {
-                dispatch(replace('/'));
-                return dispatch(logoutSuccess())
-            })
-            .catch(error => dispatch(logoutFailure(error)));
-    };
+const doLogout = () => dispatch => {
+    dispatch({
+        type: LOGOUT_REQUEST
+    });
+    return fetch('/api/logout', {
+        credentials: 'same-origin',
+        method: 'POST'
+    }).then(checkStatus)
+        .then(() => {
+            dispatch(replace('/'));
+            return dispatch(logoutSuccess());
+        })
+        .catch(error => dispatch(logoutFailure(error)));
 };
 export const logout = () => dispatch => dispatch(doLogout());

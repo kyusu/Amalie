@@ -1,6 +1,6 @@
+const R = require('ramda');
 const {getUserUrl} = require('./restPaths.js');
 const {tGet} = require('./taskifiedGet.js');
-const R = require('ramda');
 
 const getLoginData = R.pick([
     'username',

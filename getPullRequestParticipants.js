@@ -1,13 +1,19 @@
 const R = require('ramda');
 const viewValues = require('./viewValues.js');
 
-const displayNamePath = ['user', 'displayName'];
+const displayNamePath = [
+    'user',
+    'displayName'
+];
 
 /**
  * @param {PullRequest} A BitBucket pull request
  * @return {string} The author of said pull request
  */
-const viewAuthorName = R.view(R.lensPath(['author', ...displayNamePath]));
+const viewAuthorName = R.view(R.lensPath([
+    'author',
+    ...displayNamePath
+]));
 
 /**
  * @param {Reviewer} A BitBucket pull request reviewer
@@ -61,21 +67,19 @@ const reducePullRequests = (accumulator, pullRequest) => {
     const author = viewAuthorName(pullRequest);
     const pullRequestInfo = R.pick(['title'], pullRequest);
     const pullRequestsAuthored = {pullRequestsAuthored: [pullRequestInfo]};
-    accumulator = merge(accumulator, R.assoc(author, pullRequestsAuthored, {}));
+    const newAccumulator = merge(accumulator, R.assoc(author, pullRequestsAuthored, {}));
     const reviewersWhichHaveYetNotApproved = R.filter(isUnapproved, pullRequest.reviewers);
-    return R.reduce(R.partial(reduceReviewers, [pullRequestInfo]), accumulator, reviewersWhichHaveYetNotApproved);
+    return R.reduce(R.partial(reduceReviewers, [pullRequestInfo]), newAccumulator, reviewersWhichHaveYetNotApproved);
 };
 
 /**
  * @param {Array.<RepoPullRequests>} repoPullRequests A list of all pull requests for all repositories
- * @return {Array.<PullRequestParticipant>} A list of participants in these pull requests (either as reviewers or as authors)
+ * @return {Array.<PullRequestParticipant>} A list of participants in these pull requests (either as reviewers or as
+ * authors)
  */
 const getPullRequestParticipants = R.compose(
-    R.map(getParticipantsArray),
-    R.toPairs,
-    pRs => R.reduce(reducePullRequests, {}, pRs),
-    R.flatten,
-    R.map(viewValues)
+    R.map(getParticipantsArray), R.toPairs,
+    pRs => R.reduce(reducePullRequests, {}, pRs), R.flatten, R.map(viewValues)
 );
 
 module.exports = getPullRequestParticipants;

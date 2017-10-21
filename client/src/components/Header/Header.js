@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {connect} from 'react-redux'
-import {logout} from '../../actions/logout.js';
+import {connect} from 'react-redux';
+import {logout} from '../../actions/logout';
 
 const Header = ({login, onClick}) => (<nav className="pink">
     <div className="nav-wrapper">
@@ -18,6 +18,7 @@ const Header = ({login, onClick}) => (<nav className="pink">
         </div>
     </div>
 </nav>);
+
 
 const mapStateToProps = ({login}) => ({login});
 
