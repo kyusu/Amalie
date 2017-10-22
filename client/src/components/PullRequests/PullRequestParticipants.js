@@ -25,7 +25,7 @@ class PullRequestParticipants extends Component {
             {!pullRequestParticipants.value && !pullRequestParticipants.isFetching ? <Link to="/login">Please login</Link> : null}
             {pullRequestParticipants.error ? <div>{pullRequestParticipants.error}</div> : null}
             {pullRequestParticipants.value && !pullRequestParticipants.isFetching ? <ul className="collection">
-                {R.map(participant => (<li className="collection-item">{participant.name}
+                {R.map(participant => (<li key={participant.name} className="collection-item">{participant.name}
                     <span
                         className="new badge red"
                         data-badge-caption="to review">{participant.pullRequestsToReview.length}</span>

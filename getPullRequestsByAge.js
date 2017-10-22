@@ -10,6 +10,7 @@ const getPullRequestsByAge = repoPullRequests => {
     const pullRequests = R.flatten(R.map(viewValues, repoPullRequests));
     const pRs = R.map(R.pick([
         'title',
+        'id',
         'createdDate'
     ]), pullRequests);
     return R.sortBy(R.prop('createdDate'), pRs);
