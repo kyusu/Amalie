@@ -27,7 +27,7 @@ class PullRequestsByAge extends Component {
             {pullRequestsByAge.value && !pullRequestsByAge.isFetching ? <ul className="collection">
                 {R.map(
                     pullRequest => (
-                        <li key={pullRequest.id} className="collection-item">{pullRequest.title}</li>
+                        <li key={pullRequest.id} className="collection-item">{pullRequest.title} - {new Date(pullRequest.createdDate).toLocaleDateString()}</li>
                     ),
                     pullRequestsByAge.value
                 )}

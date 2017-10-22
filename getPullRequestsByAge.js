@@ -1,7 +1,6 @@
 const R = require('ramda');
 const viewValues = require('./viewValues.js');
 
-
 /**
  * @param {Array.<RepoPullRequests>} repoPullRequests A list of all pull requests for all repositories
  * @return {Array.<MinimalPullRequestInfo>}
