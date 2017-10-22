@@ -2,10 +2,17 @@ import React, {Component} from 'react';
 import R from 'ramda';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
+import {withSafeInterval} from '@hocs/safe-timers';
+import {compose} from 'recompose';
 import pullRequestsByAge from '../../actions/pullRequestsByAge';
 
 class PullRequestsByAge extends Component {
     componentDidMount() {
+        this.fetchData();
+        this.props.setSafeInterval(this.fetchData.bind(this), 3 * 60 * 1000);
+    }
+
+    fetchData() {
         this.props.dispatch(pullRequestsByAge());
     }
 
@@ -31,4 +38,7 @@ class PullRequestsByAge extends Component {
 
 const mapStateToProps = ({pullRequestsByAge}) => ({pullRequestsByAge});
 
-export default connect(mapStateToProps)(PullRequestsByAge);
+export default compose(
+    withSafeInterval,
+    connect(mapStateToProps)
+)(PullRequestsByAge);

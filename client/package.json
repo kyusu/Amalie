@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@hocs/safe-timers": "^0.3.0",
     "history": "^4.7.2",
     "isomorphic-fetch": "^2.2.1",
     "materialize-css": "^0.100.2",
@@ -14,6 +15,7 @@
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.6",
     "react-scripts": "1.0.14",
+    "recompose": "^0.26.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"
   },
