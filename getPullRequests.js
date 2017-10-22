@@ -5,6 +5,7 @@ const R = require('ramda');
 const {waitAll} = require('folktale/concurrency/task');
 const viewValues = require('./viewValues.js');
 const getPullRequestParticipants = require('./getPullRequestParticipants.js');
+const getPullRequestsByAge = require('./getPullRequestsByAge.js');
 const Maybe = require('folktale/maybe');
 
 /**
@@ -79,15 +80,16 @@ const getSlugAndKeyObjects = R.compose(R.map(getSlugAndKey), viewValues);
 const getProjectAndRepoKeys = R.compose(R.flatten, R.map(getSlugAndKeyObjects));
 
 /**
+ * @param {function(Array.<RepoPullRequests>): *} pullRequestMapFunc
  * @param {LoginData} login
  * @return {Promise}
  */
-const getPullRequests = login => projectsTask(login)
+const getPullRequests = (pullRequestMapFunc, login) => projectsTask(login)
     .map(getProjectKeys)
     .chain(reposTask(login))
     .map(getProjectAndRepoKeys)
     .chain(pullRequestsTask(login))
-    .map(getPullRequestParticipants)
+    .map(pullRequestMapFunc)
     .run()
     .promise();
 
@@ -97,12 +99,27 @@ const handleFailedGetPullRequests = res => () => res.sendStatus(500);
 
 const handleSuccessfulGetPullRequests = res => data => res.json(data);
 
-const handleExistingAuthenticationCookie = res => ({value}) => getPullRequests(value)
-    .then(handleSuccessfulGetPullRequests(res), handleFailedGetPullRequests(res));
+/**
+ * @param {function(Array.<RepoPullRequests>): *} pullRequestMapFunc
+ * @param {Object} res Express.js response object
+ * @return {function({value: Login}): void}
+ */
+const handleExistingAuthenticationCookie = (pullRequestMapFunc, res) => ({value}) => getPullRequests(
+    pullRequestMapFunc,
+    value
+).then(handleSuccessfulGetPullRequests(res), handleFailedGetPullRequests(res));
 
-const handleGetPullRequests = (req, res) => Maybe.fromNullable(req.cookies.authentication).matchWith({
-    Just: handleExistingAuthenticationCookie(res),
-    Nothing: handleMissingAuthenticationCookie(res)
-});
+const getHandleGetPullRequests = pullRequestMapFunc => (req, res) => Maybe.fromNullable(req.cookies.authentication)
+    .matchWith({
+        Just: handleExistingAuthenticationCookie(pullRequestMapFunc, res),
+        Nothing: handleMissingAuthenticationCookie(res)
+    });
 
-module.exports = handleGetPullRequests;
+const handleGetPullRequestsByAge = getHandleGetPullRequests(getPullRequestsByAge);
+
+const handleGetPullRequestParticipants = getHandleGetPullRequests(getPullRequestParticipants);
+
+module.exports = {
+    handleGetPullRequestParticipants,
+    handleGetPullRequestsByAge
+};

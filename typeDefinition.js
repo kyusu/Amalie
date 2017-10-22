@@ -85,3 +85,7 @@
 /**
  * @typedef {{username: string, password: string, server: string}} LoginData
  */
+
+/**
+ * @typedef {{createdDate: number, title: string}} MinimalPullRequestInfo
+ */

@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const handleLogin = require('./login.js');
-const handleGetPullRequests = require('./getPullRequests.js');
+const {handleGetPullRequestParticipants, handleGetPullRequestsByAge} = require('./getPullRequests.js');
 
 
 const app = express();
@@ -17,7 +17,9 @@ app.post('/api/logout', (req, res) => {
     res.sendStatus(200);
 });
 
-app.get('/api/pullrequests', handleGetPullRequests);
+app.get('/api/pullrequestparticipants', handleGetPullRequestParticipants);
+
+app.get('/api/pullrequestsbyage', handleGetPullRequestsByAge);
 
 app.set('port', process.env.PORT);
 app.listen(app.get('port'));
