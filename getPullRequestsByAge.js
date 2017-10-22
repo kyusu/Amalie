@@ -7,11 +7,13 @@ const viewValues = require('./viewValues.js');
  */
 const getPullRequestsByAge = repoPullRequests => {
     const pullRequests = R.flatten(R.map(viewValues, repoPullRequests));
+    const ps = R.map(pR => R.assoc('repo', pR.fromRef.repository.name, pR), pullRequests);
     const pRs = R.map(R.pick([
         'title',
         'id',
-        'createdDate'
-    ]), pullRequests);
+        'createdDate',
+        'repo'
+    ]), ps);
     return R.sortBy(R.prop('createdDate'), pRs);
 };
 

@@ -87,5 +87,5 @@
  */
 
 /**
- * @typedef {{createdDate: number, title: string}} MinimalPullRequestInfo
+ * @typedef {{createdDate: number, title: string, id: number, repo: string}} MinimalPullRequestInfo
  */
