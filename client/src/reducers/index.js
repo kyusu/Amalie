@@ -1,11 +1,13 @@
 import {combineReducers} from 'redux';
 import {routerReducer} from 'react-router-redux';
 import login from './login';
-import pullRequests from './pullRequests';
+import pullRequestParticipants from './pullRequestParticipants';
+import pullRequestsByAge from './pullRequestsByAge';
 
 const rootReducer = combineReducers({
     router: routerReducer,
     login,
-    pullRequests
+    pullRequestParticipants,
+    pullRequestsByAge
 });
 export default rootReducer;

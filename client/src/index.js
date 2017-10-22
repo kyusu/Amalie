@@ -11,7 +11,8 @@ import rootReducer from './reducers/index';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Login from './components/Login/Login';
-import PullRequests from './components/PullRequests/PullRequests';
+import PullRequestParticipants from './components/PullRequests/PullRequestParticipants';
+import PullRequestsByAge from './components/PullRequests/PullRequestsByAge';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 
@@ -26,7 +27,8 @@ ReactDOM.render(<Provider store={store}>
                 <div className="row">
                     <Route path="/" component={Header}/>
                     <Route path="/login" component={Login}/>
-                    <Route path="/pullrequests" component={PullRequests}/>
+                    <Route path="/pullrequestparticipants" component={PullRequestParticipants}/>
+                    <Route path="/pullrequestsbyage" component={PullRequestsByAge}/>
                 </div>
             </div>
             <div className="footer-wrapper">

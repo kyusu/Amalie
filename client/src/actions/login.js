@@ -32,7 +32,7 @@ const fetchLoginData = formValues => dispatch => {
         body: JSON.stringify(formValues)
     }).then(checkStatus)
         .then(() => {
-            dispatch(replace('/pullrequests'));
+            dispatch(replace('/'));
             return dispatchSuccess(dispatch);
         }).catch(dispatchError(dispatch));
 };

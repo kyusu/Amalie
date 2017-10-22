@@ -6,7 +6,7 @@ import {logout} from '../../actions/logout';
 const Header = ({login, onClick}) => (<nav className="pink">
     <div className="nav-wrapper">
         <div className="col s12">
-            <a href="#" className="brand-logo">Amalie</a>
+            <Link to="/" className="brand-logo">Amalie</Link>
             <ul id="nav-mobile" className="right hide-on-med-and-down">
                 {!login.isFetching && login.isLoggedIn ? <li>
                     <a href="#" onClick={onClick}>Logout</a>
