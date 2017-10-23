@@ -17,3 +17,30 @@ body {
 .footer-wrapper .row .page-footer {
     padding-top: 0;
 }
+
+.collection-item span {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.collection-item span.title {
+    width: 50%;
+}
+
+.collection-item span.repo,
+.collection-item span.date {
+    padding-left: 10px;
+    padding-right: 5px;
+}
+
+.collection-item span.date {
+    text-align: right;
+    width: 20%;
+}
+
+.collection-item span.repo {
+    width: 30%;
+}
+

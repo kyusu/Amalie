@@ -27,7 +27,13 @@ class PullRequestsByAge extends Component {
             {pullRequestsByAge.value && !pullRequestsByAge.isFetching ? <ul className="collection">
                 {R.map(
                     pullRequest => (
-                        <li key={pullRequest.id} className="collection-item">{pullRequest.title} - {pullRequest.repo} - {new Date(pullRequest.createdDate).toLocaleDateString()}</li>
+                        <li key={pullRequest.id} className="collection-item">
+                            <h4>
+                                <span className="title">{pullRequest.title}</span>
+                                <span className="repo">{pullRequest.repo}</span>
+                                <span className="date">{new Date(pullRequest.createdDate).toLocaleDateString()}</span>
+                            </h4>
+                        </li>
                     ),
                     pullRequestsByAge.value
                 )}
