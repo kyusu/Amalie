@@ -44,3 +44,8 @@ body {
     width: 30%;
 }
 
+.container {
+    margin: 0 auto;
+    max-width: inherit;
+    width: 90% !important;
+}
