@@ -19,15 +19,15 @@ class PullRequestsByAge extends Component {
     render() {
         const {pullRequestsByAge} = this.props;
         return (<div>
-            {pullRequestsByAge.isFetching ? <div className="progress">
-                <div className="indeterminate"/>
+            {pullRequestsByAge.isFetching ? <div className="">
+                <div className=""/>
             </div> : null}
             {!pullRequestsByAge.value && !pullRequestsByAge.isFetching ? <Link to="/login">Please login</Link> : null}
             {pullRequestsByAge.error ? <div>{pullRequestsByAge.error}</div> : null}
-            {pullRequestsByAge.value && !pullRequestsByAge.isFetching ? <ul className="collection">
+            {pullRequestsByAge.value && !pullRequestsByAge.isFetching ? <ul className="">
                 {R.map(
                     pullRequest => (
-                        <li key={pullRequest.id} className="collection-item">
+                        <li key={pullRequest.id} className="">
                             <h4>
                                 <span className="title">{pullRequest.title}</span>
                                 <span className="repo">{pullRequest.repo}</span>

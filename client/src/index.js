@@ -1,4 +1,3 @@
-import 'materialize-css/dist/css/materialize.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
@@ -23,17 +22,17 @@ const store = createStore(rootReducer, applyMiddleware(thunkMiddleware, middlewa
 ReactDOM.render(<Provider store={store}>
     <ConnectedRouter history={history}>
         <div>
-            <div className="container">
-                <div className="row">
+            <div className="">
+                <div className="">
                     <Route path="/" component={Header}/>
                     <Route path="/login" component={Login}/>
                     <Route path="/pullrequestparticipants" component={PullRequestParticipants}/>
                     <Route path="/pullrequestsbyage" component={PullRequestsByAge}/>
                 </div>
             </div>
-            <div className="footer-wrapper">
-                <div className="container">
-                    <div className="row"><Footer/>
+            <div className="">
+                <div className="">
+                    <div className=""><Footer/>
                     </div>
                 </div>
             </div>

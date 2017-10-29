@@ -19,19 +19,16 @@ class PullRequestParticipants extends Component {
     render() {
         const {pullRequestParticipants} = this.props;
         return (<div>
-            {pullRequestParticipants.isFetching ? <div className="progress">
-                <div className="indeterminate"/>
+            {pullRequestParticipants.isFetching ? <div className="">
+                <div className=""/>
             </div> : null}
             {!pullRequestParticipants.value && !pullRequestParticipants.isFetching ? <Link to="/login">Please login</Link> : null}
             {pullRequestParticipants.error ? <div>{pullRequestParticipants.error}</div> : null}
-            {pullRequestParticipants.value && !pullRequestParticipants.isFetching ? <ul className="collection">
-                {R.map(participant => (<li key={participant.name} className="collection-item">{participant.name}
-                    <span
-                        className="new badge red"
-                        data-badge-caption="to review">{participant.pullRequestsToReview.length}</span>
+            {pullRequestParticipants.value && !pullRequestParticipants.isFetching ? <ul className="">
+                {R.map(participant => (<li key={participant.name} className="">{participant.name}
+                    <span className="" >{participant.pullRequestsToReview.length}</span>
                     {participant.pullRequestsAuthored ? <span
-                        className="new badge blue"
-                        data-badge-caption="authored">
+                        className="">
                         {participant.pullRequestsAuthored.length}</span> : null}
                 </li>), pullRequestParticipants.value)}
             </ul> : null}

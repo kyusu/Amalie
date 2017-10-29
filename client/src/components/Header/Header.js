@@ -3,11 +3,11 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {logout} from '../../actions/logout';
 
-const Header = ({login, onClick}) => (<nav className="pink">
-    <div className="nav-wrapper">
-        <div className="col s12">
-            <Link to="/" className="brand-logo">Amalie</Link>
-            <ul id="nav-mobile" className="right hide-on-med-and-down">
+const Header = ({login, onClick}) => (<nav className="">
+    <div className="">
+        <div className="">
+            <Link to="/" className="">Amalie</Link>
+            <ul id="" className="">
                 {!login.isFetching && login.isLoggedIn ? <li>
                     <a href="#" onClick={onClick}>Logout</a>
                 </li> : null}

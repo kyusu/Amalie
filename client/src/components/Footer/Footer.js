@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Footer = () => (<footer className="page-footer pink lighten-3 ">
-    <div className="footer-copyright">
-        <div className="col s12">
+const Footer = () => (<footer className="">
+    <div className="">
+        <div className="">
             ⛧ 2017 Kyusu
-            <a className="grey-text text-lighten-4 right" href="https://github.com/kyusu/Amalie">Amalie on
+            <a className="" href="https://github.com/kyusu/Amalie">Amalie on
                 Github
             </a>
         </div>
