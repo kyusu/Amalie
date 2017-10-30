@@ -3,3 +3,22 @@ body {
     padding: 0;
     font-family: sans-serif;
 }
+
+.pull-requests-by-age .ant-card .ant-card-head {
+    height: inherit;
+    line-height: inherit;
+    padding: 0;
+}
+
+.pull-requests-by-age .ant-card .ant-card-body p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pull-requests-by-age .ant-card .ant-alert {
+}
+
+.pull-requests-by-age .row-spin {
+    text-align: center;
+}
